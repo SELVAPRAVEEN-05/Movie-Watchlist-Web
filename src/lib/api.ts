@@ -136,3 +136,41 @@ export const getUpcomingMovies = async (page: number = 1): Promise<MovieSearchRe
     throw error
   }
 }
+
+// in api.ts
+export const getFilteredMovies = async (params: {
+  page?: number
+  with_genres?: string
+  sort_by?: string
+  'vote_average.gte'?: number
+}) => {
+  if (!API_KEY) throw new Error('TMDB API Key missing')
+
+  const response = await api.get('/discover/movie', {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+      page: params.page || 1,
+      with_genres: params.with_genres,
+      sort_by: params.sort_by,
+      'vote_average.gte': params['vote_average.gte'],
+      include_adult: false,
+    },
+  })
+  return response.data
+}
+
+export const getGenres = async (): Promise<Genre[]> => {
+  if (!API_KEY) {
+    throw new Error('TMDB API Key is not configured')
+  }
+  
+  const response = await api.get('/genre/movie/list', {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+    },
+  })
+  
+  return response.data.genres
+}

@@ -4,13 +4,20 @@ import { useState, useEffect } from 'react'
 import { getWatchlist } from '@/lib/watchlist'
 import { Movie } from '@/types/movies'
 import MovieGrid from '@/component/MoviesGrid'
+import TrailerModal from '@/component/TrailerModal'
 
 export default function WatchlistPage() {
   const [watchlist, setWatchlist] = useState<Movie[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
 
   useEffect(() => {
     loadWatchlist()
+
+    // optional: listen for updates (when added/removed from other pages)
+    const update = () => loadWatchlist()
+    window.addEventListener('watchlistChanged', update)
+    return () => window.removeEventListener('watchlistChanged', update)
   }, [])
 
   const loadWatchlist = () => {
@@ -36,14 +43,11 @@ export default function WatchlistPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          My Watchlist
-        </h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">My Watchlist</h1>
         <p className="text-gray-600 text-lg">
           {watchlist.length === 0 
-            ? 'Your watchlist is empty. Start adding movies!'
-            : `You have ${watchlist.length} movie${watchlist.length > 1 ? 's' : ''} in your watchlist`
-          }
+            ? 'Your watchlist is empty. Start adding movies!' 
+            : `You have ${watchlist.length} movie${watchlist.length > 1 ? 's' : ''} in your watchlist`}
         </p>
       </div>
 
@@ -56,15 +60,17 @@ export default function WatchlistPage() {
           <p className="text-gray-600 mb-6">
             Browse movies and add them to your watchlist to keep track of what you want to watch
           </p>
-          <a
-            href="/"
-            className="btn btn-primary"
-          >
-            Discover Movies
-          </a>
+          <a href="/" className="btn btn-primary">Discover Movies</a>
         </div>
       ) : (
-        <MovieGrid movies={watchlist} />
+        <MovieGrid movies={watchlist} onSelectMovie={setSelectedMovie} />
+      )}
+
+      {selectedMovie && (
+        <TrailerModal
+          movieId={selectedMovie.id}
+          onClose={() => setSelectedMovie(null)}
+        />
       )}
     </div>
   )
