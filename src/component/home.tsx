@@ -3,9 +3,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { searchMovies, getPopularMovies, getGenres, getFilteredMovies } from '@/lib/api'
 import { Movie, Genre } from '@/types/movies'
-import SearchBar from '@/component/Searchbar'
-import MovieGrid from '@/component/MoviesGrid'
-import Pagination from '@/component/Pagenation'
+import SearchBar from '@/component/searchbar'
+import MovieGrid from '@/component/moviesGrid'
+import Pagination from '@/component/pagenation'
 import FilterModal from '@/component/filter'
 
 export default function HomePage() {

@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { getWatchlist } from '@/lib/watchlist'
 import { Movie } from '@/types/movies'
-import MovieGrid from '@/component/MoviesGrid'
-import TrailerModal from '@/component/TrailerModal'
+import MovieGrid from '@/component/moviesGrid'
+import TrailerModal from '@/component/trailerModal'
 
 export default function WatchlistPage() {
   const [watchlist, setWatchlist] = useState<Movie[]>([])

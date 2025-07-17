@@ -160,7 +160,7 @@ export const getFilteredMovies = async (params: {
   return response.data
 }
 
-export const getGenres = async (): Promise<Genre[]> => {
+export const getGenres = async () => {
   if (!API_KEY) {
     throw new Error('TMDB API Key is not configured')
   }
@@ -171,6 +171,6 @@ export const getGenres = async (): Promise<Genre[]> => {
       language: 'en-US',
     },
   })
-  
+
   return response.data.genres
 }
