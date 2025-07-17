@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Star, Calendar, Plus, Check } from 'lucide-react'
+import { Star, Calendar, Plus, Check, Play } from 'lucide-react'
 import { Movie } from '@/types/movies'
 import { addToWatchlist, removeFromWatchlist, isInWatchlist } from '@/lib/watchlist'
 
@@ -39,12 +39,27 @@ export default function MovieCard({ movie, onSelect }: MovieCardProps) {
 
   return (
     <div
-      className="card group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105"
+      className="relative group cursor-pointer transition-all duration-300 transform hover:scale-105 shadow-md rounded-xl overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => onSelect?.(movie)}
     >
-      <div className="relative overflow-hidden">
+      {/* Blurred background */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={
+            movie.backdrop_path
+              ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+              : '/placeholder-movie.jpg'
+          }
+          alt=""
+          fill
+          className="object-cover blur-lg opacity-30"
+        />
+      </div>
+
+      {/* Poster */}
+      <div className="relative z-10">
         <Image
           src={
             movie.poster_path
@@ -54,60 +69,54 @@ export default function MovieCard({ movie, onSelect }: MovieCardProps) {
           alt={movie.title}
           width={500}
           height={750}
-          className="w-full h-72 object-cover transition-transform duration-300 group-hover:scale-110"
+          className="w-full h-72 object-cover"
         />
-
-        {/* Hover overlay */}
-        <div className={`absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
-            isHovered ? 'opacity-100' : 'opacity-0'
-          }`}>
-          <div className="absolute top-4 right-4">
-            <button
-              onClick={handleWatchlistToggle}
-              className={`p-2 rounded-full transition-colors ${
-                inWatchlist 
-                  ? 'bg-green-500 text-white' 
-                  : 'bg-white bg-opacity-80 text-gray-800 hover:bg-opacity-100'
-              }`}
-            >
-              {inWatchlist ? (
-                <Check className="w-4 h-4" />
-              ) : (
-                <Plus className="w-4 h-4" />
-              )}
-            </button>
-          </div>
-
-          <div className="absolute bottom-4 left-4 right-4 text-white">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-1">
-                <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                <span className="text-sm font-medium">{rating.toFixed(1)}</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <Calendar className="w-4 h-4" />
-                <span className="text-sm">{releaseYear}</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div className="p-4">
-        <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
-          {movie.title}
-        </h3>
-        <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
-          {movie.overview || 'No description available.'}
-        </p>
-
-        <div className="mt-3 flex items-center justify-between">
-          <div className="flex items-center space-x-1">
-            <Star className="w-4 h-4 text-yellow-500 fill-current" />
-            <span className="text-sm text-gray-600">{rating.toFixed(1)}</span>
-            <span className="text-xs text-gray-500">({movie.vote_count} votes)</span>
+      {/* Hover Overlay */}
+      <div
+        className={`absolute inset-0 z-20 p-4 flex flex-col justify-between bg-gradient-to-t from-black via-black/70 to-transparent transition-opacity duration-300 ${
+          isHovered ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        {/* Top Row */}
+        <div className="flex justify-between items-start">
+          <div className="flex items-center gap-1 text-yellow-400">
+            <Star className="w-4 h-4" />
+            <span className="text-sm font-semibold">{rating.toFixed(1)}</span>
           </div>
-          <span className="text-sm text-gray-500">{releaseYear}</span>
+
+          <button
+            onClick={handleWatchlistToggle}
+            className={`p-2 rounded-full shadow transition-colors ${
+              inWatchlist
+                ? 'bg-green-500 text-white'
+                : 'bg-white bg-opacity-80 text-gray-800 hover:bg-opacity-100'
+            }`}
+          >
+            {inWatchlist ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+          </button>
+        </div>
+
+        {/* Bottom Details */}
+        <div className="text-white space-y-2">
+          <h3 className="text-lg font-bold line-clamp-2">{movie.title}</h3>
+          <div className="flex items-center gap-2 text-sm text-gray-300">
+            <Calendar className="w-4 h-4" />
+            <span>{releaseYear}</span>
+          </div>
+
+          {/* Overview added here */}
+          <p className="text-sm text-gray-200 line-clamp-3 leading-snug">
+            {movie.overview || 'No description available.'}
+          </p>
+
+          <button
+            className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-white/10 hover:bg-white/20 text-white text-sm rounded-full border border-white/20 backdrop-blur-sm"
+          >
+            <Play className="w-4 h-4" />
+            Watch Trailer
+          </button>
         </div>
       </div>
     </div>
