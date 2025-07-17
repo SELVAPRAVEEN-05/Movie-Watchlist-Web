@@ -57,3 +57,16 @@ export interface MovieSearchResponse {
   total_pages: number
   total_results: number
 }
+
+export interface MovieVideo {
+  id: string
+  key: string
+  name: string
+  site: string
+  type: string
+}
+
+export interface MovieVideoResponse {
+  id: number
+  results: MovieVideo[]
+}

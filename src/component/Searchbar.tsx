@@ -18,7 +18,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     }, 500)
 
     return () => clearTimeout(timeoutId)
-  }, [query, onSearch])
+  }, [query])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
