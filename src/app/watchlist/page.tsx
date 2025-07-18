@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { getWatchlist } from '@/lib/watchlist'
-import { Movie } from '@/types/movies'
 import MovieGrid from '@/component/moviesGrid'
 import TrailerModal from '@/component/trailerModal'
+import { getWatchlist } from '@/lib/watchlist'
+import { Movie } from '@/types/movies'
+import { useState, useEffect } from 'react'
+
 
 export default function WatchlistPage() {
   const [watchlist, setWatchlist] = useState<Movie[]>([])
