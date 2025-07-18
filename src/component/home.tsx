@@ -7,6 +7,7 @@ import SearchBar from '@/component/searchbar'
 import MovieGrid from '@/component/moviesGrid'
 import Pagination from '@/component/pagenation'
 import FilterModal from '@/component/filter'
+import TrailerModal from './trailerModal'
 
 export default function HomePage() {
   const [movies, setMovies] = useState<Movie[]>([])
@@ -14,6 +15,7 @@ export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
 
   const [showFilter, setShowFilter] = useState(false)
   const [genres, setGenres] = useState<Genre[]>([])
@@ -165,7 +167,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <MovieGrid movies={movies} />
+            <MovieGrid movies={movies} onSelectMovie={setSelectedMovie} />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -183,6 +185,12 @@ export default function HomePage() {
           initialSortBy={filters.sortBy}
           onClose={() => setShowFilter(false)}
           onApply={handleApplyFilters}
+        />
+      )}
+      {selectedMovie && (
+        <TrailerModal
+          movieId={selectedMovie.id}
+          onClose={() => setSelectedMovie(null)}
         />
       )}
 
