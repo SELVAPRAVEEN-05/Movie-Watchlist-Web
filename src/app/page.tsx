@@ -1,8 +1,8 @@
-// app/page.tsx
 import HomePage from '@/component/home'
-import dynamic from 'next/dynamic'
+import React from 'react'
 
-
-export default function Page() {
-  return <HomePage />
+export default function page() {
+  return (
+    <div><HomePage /></div>
+  )
 }
