@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import Image from 'next/image'
-import { Star, Calendar, Clock, Plus, Check } from 'lucide-react'
 import { getMovieDetails } from '@/lib/api'
-import { addToWatchlist, removeFromWatchlist, isInWatchlist } from '@/lib/watchlist'
+import { addToWatchlist, isInWatchlist, removeFromWatchlist } from '@/lib/watchlist'
 import { MovieDetails } from '@/types/movies'
+import { Calendar, Check, Clock, Plus, Star } from 'lucide-react'
+import Image from 'next/image'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function MovieDetailPage() {
   const { id } = useParams()
@@ -73,7 +73,7 @@ export default function MovieDetailPage() {
         <div className="md:flex">
           <div className="md:w-1/3">
             <Image
-              src={movie.poster_path 
+              src={movie.poster_path
                 ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                 : '/placeholder-movie.jpg'
               }
@@ -83,7 +83,7 @@ export default function MovieDetailPage() {
               className="w-full h-auto object-cover"
             />
           </div>
-          
+
           <div className="md:w-2/3 p-8">
             <div className="flex justify-between items-start mb-4">
               <h1 className="text-3xl font-bold text-gray-900">{movie.title}</h1>

@@ -14,8 +14,7 @@ export default function WatchlistPage() {
 
   useEffect(() => {
     loadWatchlist()
-
-    // optional: listen for updates (when added/removed from other pages)
+    
     const update = () => loadWatchlist()
     window.addEventListener('watchlistChanged', update)
     return () => window.removeEventListener('watchlistChanged', update)

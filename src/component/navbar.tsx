@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { getWatchlist } from '@/lib/watchlist'
+import { Bookmark, Film, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Film, Bookmark, Menu, X } from 'lucide-react'
-import { getWatchlist } from '@/lib/watchlist'
+import { useEffect, useState } from 'react'
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -25,7 +25,7 @@ export default function Navbar() {
     }
 
     window.addEventListener('storage', handleStorageChange)
-    
+
     // Custom event for when watchlist changes within the same tab
     window.addEventListener('watchlistChanged', handleStorageChange)
 
@@ -54,16 +54,15 @@ export default function Navbar() {
             {navLinks.map((link) => {
               const Icon = link.icon
               const isActive = pathname === link.href
-              
+
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive
+                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive
                       ? 'text-primary-600 bg-primary-50'
                       : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{link.label}</span>
@@ -93,17 +92,16 @@ export default function Navbar() {
               {navLinks.map((link) => {
                 const Icon = link.icon
                 const isActive = pathname === link.href
-                
+
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive
                         ? 'text-primary-600 bg-primary-50'
                         : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
-                    }`}
+                      }`}
                   >
                     <Icon className="w-4 h-4" />
                     <span>{link.label}</span>

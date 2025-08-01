@@ -32,11 +32,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`p-2 rounded-md transition-colors ${
-          currentPage === 1
+        className={`p-2 rounded-md transition-colors ${currentPage === 1
             ? 'text-gray-400 cursor-not-allowed'
             : 'text-gray-700 hover:bg-gray-100'
-        }`}
+          }`}
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
@@ -61,11 +60,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`px-3 py-2 rounded-md transition-colors ${
-            page === currentPage
+          className={`px-3 py-2 rounded-md transition-colors ${page === currentPage
               ? 'bg-primary-500 text-white'
               : 'text-gray-700 hover:bg-gray-100'
-          }`}
+            }`}
         >
           {page}
         </button>
@@ -90,11 +88,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`p-2 rounded-md transition-colors ${
-          currentPage === totalPages
+        className={`p-2 rounded-md transition-colors ${currentPage === totalPages
             ? 'text-gray-400 cursor-not-allowed'
             : 'text-gray-700 hover:bg-gray-100'
-        }`}
+          }`}
       >
         <ChevronRight className="w-5 h-5" />
       </button>
